@@ -74,9 +74,9 @@ export function SurveyCard({ survey, isSuperSurvey = false, disabled = false }) 
     return (
       <AnimatedCard
         onClick={handleCardClick}
-        className={`transition-all relative ${
-          !disabled ? "hover:bg-muted/50 cursor-pointer" : ""
-        } ${disabled ? "opacity-50" : ""}`}
+        className={`transition-all relative cursor-pointer ${
+          !disabled ? "hover:bg-muted/50" : ""
+        }`}
         containerClassName="w-full"
       >
         {/* Badge SUPER como selo na parte superior */}
@@ -96,9 +96,9 @@ export function SurveyCard({ survey, isSuperSurvey = false, disabled = false }) 
   return (
     <Card
       onClick={handleCardClick}
-      className={`transition-all ${
-        !disabled ? "hover:bg-muted/50 cursor-pointer" : ""
-      } ${disabled ? "opacity-50" : ""}`}
+      className={`transition-all cursor-pointer ${
+        !disabled ? "hover:bg-muted/50" : ""
+      }`}
     >
       <CardContent className="p-4">
         {cardContent}
