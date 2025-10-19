@@ -23,7 +23,7 @@ const badgeVariants = cva(
 					"border-[#0b57d0]/20 bg-[#0b57d0] text-white hover:bg-[#0b57d0]/90 dark:bg-[#a8c7fa] dark:text-[#062e6f] dark:hover:bg-[#9ab8eb] select-none items-center whitespace-nowrap",
 
 				gold:
-					"border-transparent bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#AA771C] font-bold shadow-lg select-none items-center whitespace-nowrap",
+					"opacity-100 border-transparent bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#AA771C] font-bold shadow-lg select-none items-center whitespace-nowrap",
 				green:
 					"border-green-500/20 bg-green-500/10 text-green-500 select-none items-center whitespace-nowrap",
                 				blue: 
