@@ -312,10 +312,10 @@ export default function Layout({ children, component }) {
             {children}
           </div>
         </div>
+
+        {/* Bottom Navigation - apenas no mobile */}
+        {isMobile && <BottomNav />}
       </main>
-      
-      {/* Bottom Navigation - apenas no mobile - renderizado fora do main */}
-      {isMobile && <BottomNav />}
     </SidebarLayout>
   );
 }
