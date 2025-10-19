@@ -1,0 +1,21 @@
+export function getLocale(cookies) {
+	const locale = cookies.DOKPLOY_LOCALE ?? "en";
+	return locale;
+}
+
+import { Languages } from "@/lib/languages";
+import { serverSideTranslations as originalServerSideTranslations } from "next-i18next/serverSideTranslations";
+
+export const serverSideTranslations = (
+	locale,
+	namespaces = ["common"],
+) =>
+	originalServerSideTranslations(locale, namespaces, {
+		fallbackLng: "en",
+		keySeparator: false,
+		i18n: {
+			defaultLocale: "en",
+			locales: Object.values(Languages).map((language) => language.code),
+			localeDetection: false,
+		},
+	});

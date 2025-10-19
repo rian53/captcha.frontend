@@ -1,0 +1,102 @@
+/* Estilos para estabilização do Virtuoso */
+
+/* Container principal do Virtuoso */
+.virtuoso-stable-container {
+  /* Força GPU para melhor performance */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Lista de itens do Virtuoso */
+[data-testid="virtuoso-item-list"] {
+  /* Evita recálculos desnecessários */
+  contain: layout style paint;
+  will-change: contents;
+}
+
+/* Itens individuais */
+[data-testid="virtuoso-item-list"] > div {
+  /* Estabiliza rendering */
+  contain: layout style;
+  transform: translateZ(0);
+}
+
+/* Scrollbar customizada para melhor performance */
+.virtuoso-stable-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.virtuoso-stable-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.virtuoso-stable-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.virtuoso-stable-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode scrollbar */
+.dark .virtuoso-stable-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark .virtuoso-stable-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Previne flickering durante scroll */
+@media (prefers-reduced-motion: no-preference) {
+  .virtuoso-stable-container * {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mensagens - estabilização visual */
+.message-bubble-wrapper {
+  contain: layout style;
+  will-change: auto;
+}
+
+/* Placeholder para scroll rápido */
+.virtuoso-placeholder {
+  contain: strict;
+  background: var(--muted);
+  border-radius: 8px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Fix para evitar layout shift */
+.virtuoso-spacer {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Otimizações para mobile */
+@media (max-width: 768px) {
+  .virtuoso-stable-container {
+    /* Desabilita momentum scrolling problemático */
+    -webkit-overflow-scrolling: auto;
+  }
+  
+  [data-testid="virtuoso-item-list"] > div {
+    /* Reduz complexidade no mobile */
+    contain: layout;
+  }
+}
