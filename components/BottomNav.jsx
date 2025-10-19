@@ -41,8 +41,17 @@ export default function BottomNav() {
   };
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-t rounded-xl">      
-      <div className="flex items-center justify-around h-16 px-2">
+    <nav 
+      className="md:hidden fixed bottom-0 left-0 right-0 z-[9999] bg-background border-t transform-none will-change-auto" 
+      style={{ 
+        position: 'fixed !important',
+        bottom: '0px !important',
+        transform: 'none !important',
+        backfaceVisibility: 'hidden',
+        perspective: '1000px'
+      }}
+    >      
+      <div className="flex items-center justify-around h-16 px-2 bg-background">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.url);
@@ -88,7 +97,7 @@ export default function BottomNav() {
       </div>
 
       {/* Barra de navegação segura para dispositivos com notch */}
-      <div className="h-safe-area-inset-bottom bg-background/80 backdrop-blur-lg" />
+      <div className="h-safe-area-inset-bottom bg-background" />
     </nav>
   );
 }
