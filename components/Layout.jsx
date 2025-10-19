@@ -73,7 +73,7 @@ export default function Layout({ children, component }) {
   return (
     <SidebarLayout>
       <main className="relative flex min-h-svh overflow-auto  max-w-7xl mx-auto w-full flex-col bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow">
-        <div className={`flex flex-col w-full gap-4 px-4 ${isMobile ? 'pt-0 pb-24' : 'pt-2 pb-2'}`}>
+        <div className={`flex flex-col w-full gap-4 px-4 ${isMobile ? 'pt-0 pb-20' : 'pt-2 pb-2'}`}>
         
           {/* Header Mobile */}
           {isMobile && (
