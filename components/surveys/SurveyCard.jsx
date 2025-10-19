@@ -80,7 +80,7 @@ export function SurveyCard({ survey, isSuperSurvey = false, disabled = false }) 
         containerClassName="w-full"
       >
         {/* Badge SUPER como selo na parte superior */}
-        <div className="absolute -top-3 sm:-top-3 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="absolute -top-3 sm:-top-3 left-1/2 transform -translate-x-1/2 z-20 opacity-100">
           <Badge variant="gold" className="flex items-center gap-1 text-xs sm:text-sm px-3 py-1 shadow-lg text-yellow-900">
             <Star className="w-3 h-3 sm:w-4 sm:h-4" />
             SÚPER CALIFICACIÓN
