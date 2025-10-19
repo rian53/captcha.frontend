@@ -24,7 +24,7 @@ export function SurveyCard({ survey, isSuperSurvey = false, disabled = false }) 
       {/* Imagem do produto */}
       <div
         className="w-16 h-16 sm:w-20 sm:h-20 bg-muted rounded-lg bg-center bg-contain bg-no-repeat flex-shrink-0 mx-auto sm:mx-0"
-        style={{ backgroundImage: `url(${survey.imageUrl})` }}
+        style={{ backgroundImage: `url(/img/logo.png)` }}
       />
 
       {/* Conteúdo principal */}
