@@ -151,7 +151,7 @@ function Login() {
                     <AlertBlock type="info">
                       <div className="flex items-center gap-2">
                        
-                        <span>Email preenchido automaticamente: <strong>{prefilledEmail}</strong></span>
+                        <span>Correo electrónico autocompletado: <strong>{prefilledEmail}</strong></span>
                       </div>
                     </AlertBlock>
                   )}
