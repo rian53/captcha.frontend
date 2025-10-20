@@ -30,20 +30,33 @@ function Login() {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [pendingRedirect, setPendingRedirect] = useState(null);
   const [emailCopied, setEmailCopied] = useState(false);
+  const [prefilledEmail, setPrefilledEmail] = useState('');
 
-  // Verificar se há erro de sessão expirada na URL
+  // Verificar se há erro de sessão expirada na URL e capturar email da URL
   useEffect(() => {
     if (router.query.error === 'session_expired') {
       toast.error('Sua sessão de pagamento expirou ou já foi utilizada. Faça login para continuar.');
     }
-  }, [router.query.error]);
+    
+    // Capturar email da URL se existir
+    if (router.query.email) {
+      setPrefilledEmail(router.query.email);
+    }
+  }, [router.query.error, router.query.email]);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("E-mail é requerido"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
-  const { register, handleSubmit, formState } = useForm(formOptions);
+  const { register, handleSubmit, formState, setValue } = useForm(formOptions);
   const { errors } = formState;
+
+  // Atualizar o valor do formulário quando o email for preenchido automaticamente
+  useEffect(() => {
+    if (prefilledEmail) {
+      setValue('email', prefilledEmail);
+    }
+  }, [prefilledEmail, setValue]);
 
   function onSubmit({ email }) {
     setLoginError(false);
@@ -134,6 +147,15 @@ function Login() {
                     </AlertBlock>
                   )}
                   
+                  {prefilledEmail && (
+                    <AlertBlock type="info">
+                      <div className="flex items-center gap-2">
+                       
+                        <span>Email preenchido automaticamente: <strong>{prefilledEmail}</strong></span>
+                      </div>
+                    </AlertBlock>
+                  )}
+                  
                   <div className="space-y-2">
                     <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                       Tu correo electrónico
@@ -144,6 +166,7 @@ function Login() {
                       name="email"
                       type="email"
                       id="email"
+                      value={prefilledEmail}
                       {...register("email")}
                     />
                   </div>
