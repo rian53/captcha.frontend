@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChartArea, Gift } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ChartArea, Gift, History } from "lucide-react";
 import { userService, walletService } from "@/services";
 import { BalanceCard } from "@/components/surveys/BalanceCard";
 import BankModal from "@/components/wallet/BankModal";
 import PaymentMethodCards from "@/components/wallet/PaymentMethodCards";
 import WithdrawForm from "@/components/wallet/WithdrawForm";
 import BankDetailsSummary from "@/components/wallet/BankDetailsSummary";
+import WithdrawSuccessModal from "@/components/wallet/WithdrawSuccessModal";
 import { AlertBlock } from "@/components/shared/alert-block";
+import { useRouter } from "next/router";
 
 function WalletPage() {
+  const router = useRouter();
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedMethod, setSelectedMethod] = useState(null);
@@ -20,8 +24,11 @@ function WalletPage() {
   const [bankDetails, setBankDetails] = useState(null);
   const [hasBankDetails, setHasBankDetails] = useState(false);
   const [showObjectiveAlert, setShowObjectiveAlert] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [withdrawMethod, setWithdrawMethod] = useState(null);
 
-  const targetBalance = 35000; // Meta de saldo
+  // Meta de saldo dinâmica baseada em superPosts
+  const targetBalance = userProfile?.superPosts > 0 ? 115218 : 35000;
 
   useEffect(() => {
     loadUserProfile();
@@ -75,6 +82,13 @@ function WalletPage() {
     setIsBankModalOpen(true);
   };
 
+  const handleSuccessModalClose = () => {
+    setShowSuccessModal(false);
+    setWithdrawMethod(null);
+    // Redireciona para a página de histórico de withdraws
+    router.push("/withdraw");
+  };
+
   const formatCurrency = (value) => {
     const reais = (value / 100).toFixed(2);
     return `US$ ${reais.replace(".", ",")}`;
@@ -117,27 +131,34 @@ function WalletPage() {
     
     setIsWithdrawing(true);
     try {
-      // Aqui implementarías la lógica de retiro
       const numericAmount = parseInputValue(withdrawAmount);
-      console.log("Solicitud de retiro:", {
-        method: selectedMethod,
-        amount: numericAmount,
-        formattedAmount: withdrawAmount,
-        email: paypalEmail,
-        bankDetails: selectedMethod === "banco" ? bankDetails : null
-      });
+      const amountInCents = Math.round(numericAmount * 100);
       
-      // Simular delay de la API
+      const withdrawData = {
+        method: selectedMethod,
+        amount: amountInCents,
+        paypalEmail: selectedMethod === "paypal" ? paypalEmail : undefined,
+        bankDetailsId: selectedMethod === "banco" && bankDetails ? bankDetails.id : undefined,
+      };
+      
+      // Simular carregamento de 2 segundos
       await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const response = await walletService.createWithdraw(withdrawData);
+      
+      // Atualiza o perfil do usuário
+      await loadUserProfile();
       
       // Reset form
       setWithdrawAmount("");
       setPaypalEmail("");
       
-      alert("¡Solicitud de retiro enviada con éxito!");
+      // Mostra modal de sucesso
+      setWithdrawMethod(selectedMethod);
+      setShowSuccessModal(true);
     } catch (error) {
       console.error("Error al procesar retiro:", error);
-      alert("Error al procesar retiro. Inténtalo de nuevo.");
+      alert(error.message || "Error al procesar retiro. Inténtalo de nuevo.");
     } finally {
       setIsWithdrawing(false);
     }
@@ -200,7 +221,17 @@ function WalletPage() {
         </AlertBlock>
       )}
 
-      <BalanceCard balance={balance} />
+      <BalanceCard balance={balance} targetBalance={targetBalance} />
+
+      {/* Botão Ver Histórico de Retiros */}
+      <Button
+        onClick={() => router.push("/withdraw")}
+        variant="outline"
+        className="w-full flex items-center justify-center gap-2"
+      >
+        <History className="w-4 h-4" />
+        Ver Historial de Retiros
+      </Button>
 
       {/* Card de Saldo de Bonificación */}
       <Card className="rounded-2xl">
@@ -271,6 +302,13 @@ function WalletPage() {
         isOpen={isBankModalOpen}
         onClose={handleBankModalClose}
         onConfirm={handleBankConfirm}
+      />
+
+      {/* Modal de Éxito de Retiro */}
+      <WithdrawSuccessModal
+        isOpen={showSuccessModal}
+        onClose={handleSuccessModalClose}
+        method={withdrawMethod}
       />
     </div>
   );

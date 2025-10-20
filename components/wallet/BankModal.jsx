@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { X, Mail, CheckCircle } from "lucide-react";
 import { walletService } from "@/services";
+import { userService } from "@/services";
+import { AlertBlock } from "@/components/shared/alert-block";
 
 const BankModal = ({ isOpen, onClose, onConfirm, initialData = null }) => {
   const [step, setStep] = useState("form"); // "form" | "otp" | "success"
@@ -43,6 +45,16 @@ const BankModal = ({ isOpen, onClose, onConfirm, initialData = null }) => {
   const handleSendOtp = async () => {
     setLoading(true);
     setError("");
+    
+    // Verificar se o email corresponde ao email da conta do usuário
+    const currentUser = userService.userValue;
+    const userEmail = currentUser?.client?.email || currentUser?.user?.email || currentUser?.agent?.email;
+    
+    if (userEmail && bankData.email !== userEmail) {
+      setError("Este no es el email original de tu cuenta. Por favor, usa el email registrado en tu perfil.");
+      setLoading(false);
+      return;
+    }
     
     try {
       await walletService.sendBankOtp({
@@ -168,19 +180,21 @@ const BankModal = ({ isOpen, onClose, onConfirm, initialData = null }) => {
           onChange={(e) => handleInputChange("email", e.target.value)}
           disabled={loading}
         />
+        {(() => {
+          const currentUser = userService.userValue;
+          const userEmail = currentUser?.client?.email || currentUser?.user?.email || currentUser?.agent?.email;
+        })()}
       </div>
 
-      <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-lg">
-        <p className="text-sm text-blue-800 dark:text-blue-200">
-          Al llenar los datos anteriores, encontraremos su cuenta bancaria para el envío del saldo. 
-          No se preocupe, tras la solicitud de retiro, entraremos en contacto para confirmar la cuenta.
-        </p>
-      </div>
+      <AlertBlock type="info">
+        Al llenar los datos anteriores, encontraremos su cuenta bancaria para el envío del saldo. 
+        No se preocupe, tras la solicitud de retiro, entraremos en contacto para confirmar la cuenta.
+      </AlertBlock>
 
       {error && (
-        <div className="bg-red-50 dark:bg-red-950 p-3 rounded-lg">
-          <p className="text-sm text-red-800 dark:text-red-200">{error}</p>
-        </div>
+        <AlertBlock type="error">
+          {error}
+        </AlertBlock>
       )}
 
       <div className="flex gap-3 pt-2">
@@ -244,9 +258,9 @@ const BankModal = ({ isOpen, onClose, onConfirm, initialData = null }) => {
         </div>
 
         {error && (
-          <div className="bg-red-50 dark:bg-red-950 p-3 rounded-lg">
-            <p className="text-sm text-red-800 dark:text-red-200 text-center">{error}</p>
-          </div>
+          <AlertBlock type="error">
+            {error}
+          </AlertBlock>
         )}
       </div>
 

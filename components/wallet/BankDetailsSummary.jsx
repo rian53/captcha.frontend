@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Building2, CheckCircle, Edit } from "lucide-react";
+import { CheckCircle, Edit, Landmark } from "lucide-react";
 
 const BankDetailsSummary = ({ bankDetails, onEdit }) => {
   const maskBankData = (data) => {
@@ -28,7 +28,7 @@ const BankDetailsSummary = ({ bankDetails, onEdit }) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-green-100 dark:bg-green-900">
-                <Building2 className="w-5 h-5 text-green-600 dark:text-green-400" />
+                <Landmark className="w-5 h-5 text-green-600 dark:text-green-400" />
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-foreground">

@@ -1,5 +1,5 @@
 // components/BottomNav.jsx
-import { Home, Wallet, GraduationCap, BanknoteArrowDown, Menu } from "lucide-react";
+import { Home, Wallet, HandCoins, BanknoteArrowDown, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -17,14 +17,14 @@ const navItems = [
     icon: Wallet,
   },
   {
-    title: "Cursos",
-    url: "#",
-    icon: GraduationCap,
+    title: "Retiros",
+    url: "/withdraw",
+    icon: BanknoteArrowDown,
   },
   {
     title: "Reembolso",
     url: "/refund",
-    icon: BanknoteArrowDown,
+    icon: HandCoins,
   },
 ];
 

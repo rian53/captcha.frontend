@@ -15,6 +15,11 @@ export const walletService = {
   verifyRefundOtp,
   retryRefund,
   processRefundViaBank,
+  // Withdraw methods
+  createWithdraw,
+  getUserWithdraws,
+  getWithdrawById,
+  updateWithdrawBankDetails,
 };
 
 /**
@@ -96,5 +101,33 @@ function retryRefund() {
  */
 function processRefundViaBank() {
   return fetchWrapper.post(`${baseUrl}/refund/process-via-bank`);
+}
+
+/**
+ * Cria uma solicitação de saque
+ */
+function createWithdraw(withdrawData) {
+  return fetchWrapper.post(`${baseUrl}/withdraw`, withdrawData);
+}
+
+/**
+ * Lista todos os saques do usuário
+ */
+function getUserWithdraws() {
+  return fetchWrapper.get(`${baseUrl}/withdraw`);
+}
+
+/**
+ * Obtém um saque específico
+ */
+function getWithdrawById(id) {
+  return fetchWrapper.get(`${baseUrl}/withdraw/${id}`);
+}
+
+/**
+ * Atualiza os dados bancários de um saque e reseta a data de criação
+ */
+function updateWithdrawBankDetails(withdrawId) {
+  return fetchWrapper.post(`${baseUrl}/withdraw/${withdrawId}/update-bank-details`);
 }
 

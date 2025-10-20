@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 const PromotionalModal = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [hasShownToday, setHasShownToday] = useState(false);
 
   // Configuración de las 3 etapas
   const steps = [
@@ -28,25 +27,6 @@ const PromotionalModal = ({ isOpen, onClose }) => {
     }
   ];
 
-  // Verificar si ya se mostró hoy
-  useEffect(() => {
-    const today = new Date().toDateString();
-    const lastShown = localStorage.getItem('promotionalModalLastShown');
-    
-    if (lastShown === today) {
-      setHasShownToday(true);
-    } else {
-      setHasShownToday(false);
-    }
-  }, []);
-
-  // Marcar como mostrado hoy
-  const markAsShownToday = () => {
-    const today = new Date().toDateString();
-    localStorage.setItem('promotionalModalLastShown', today);
-    setHasShownToday(true);
-  };
-
   // Abrir URL en nueva pestaña
   const handleOpenUrl = () => {
     window.open(steps[currentStep].url, '_blank');
@@ -64,13 +44,12 @@ const PromotionalModal = ({ isOpen, onClose }) => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      markAsShownToday();
       onClose();
     }
   };
 
-  // Si ya se mostró hoy, no mostrar
-  if (hasShownToday || !isOpen) {
+  // Se não estiver aberto, não mostrar
+  if (!isOpen) {
     return null;
   }
 

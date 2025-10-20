@@ -1,12 +1,11 @@
 import {
 	Home,
-	Bell,
 	Wallet,
 	HeartIcon,
 	BadgeHelpIcon,
 	User,
-	GraduationCap,
 	BanknoteArrowDown,
+	HandCoins,	
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -26,15 +25,15 @@ export const MENU = {
 		},
 		{
 			isSingle: true,
-			title: "Cursos",
-			url: "#",
-			icon: GraduationCap,
+			title: "Retiros",
+			url: "/withdraw",
+			icon: BanknoteArrowDown ,
 		},
 		{
 			isSingle: true,
 			title: "Reembolso",
 			url: "/refund",
-			icon: BanknoteArrowDown,
+			icon: HandCoins,
 		},
 	],
 

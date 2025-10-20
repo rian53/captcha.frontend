@@ -64,7 +64,7 @@ export function AnimatedCard({
     >
       <div
         className={cn(
-          "w-full text-foreground z-10 bg-card px-4 py-4 rounded-[inherit] border border-yellow-500/20",
+          "w-full text-foreground z-10 bg-card px-4 py-5 rounded-[inherit] border border-yellow-500/20",
           className
         )}
       >

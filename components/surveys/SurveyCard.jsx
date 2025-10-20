@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { AnimatedCard } from "@/components/ui/animated-card";
 import { Badge } from "@/components/ui/badge";
+import { HoverBorderGradient } from "@/components/ui/button-animate";
 import { ChevronRight, Star } from "lucide-react";
 import { useRouter } from "next/router";
 
@@ -39,32 +40,59 @@ export function SurveyCard({ survey, isSuperSurvey = false, disabled = false }) 
         {/* Preços e Badge Responder */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="text-center sm:text-left">
-            {survey.oldValue && (
-              <div className="text-xs text-muted-foreground line-through mb-1">
-                {formatCurrency(survey.oldValue)}
+            {isSuperSurvey ? (
+              // Para Super Surveys: mostrar valor original (dividido por 3) cortado e valor atual em dourado
+              <div className="space-y-1">
+                <div className="text-xs text-muted-foreground line-through">
+                  {formatCurrency(survey.value / 3)}
+                </div>
+                <div className="flex items-center justify-center sm:justify-start gap-2">
+                  <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-yellow-600 to-amber-600 dark:from-yellow-400 dark:to-amber-400 bg-clip-text text-transparent">
+                    {formatCurrency(survey.value)}
+                  </span>
+                  <Badge variant="gold" className="text-xs px-2 py-1 text-yellow-900 !opacity-100">
+                    3x
+                  </Badge>
+                </div>
+              </div>
+            ) : (
+              // Para Surveys normais: mostrar valor normal
+              <div>
+                {survey.oldValue && (
+                  <div className="text-xs text-muted-foreground line-through mb-1">
+                    {formatCurrency(survey.oldValue)}
+                  </div>
+                )}
+                <div className="flex items-center justify-center sm:justify-start gap-2">
+                  <span className="text-lg sm:text-xl font-bold text-foreground">
+                    {formatCurrency(survey.value)}
+                  </span>
+                </div>
               </div>
             )}
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <span className="text-lg sm:text-xl font-bold text-foreground">
-                {formatCurrency(survey.value)}
-              </span>
-              {isSuperSurvey && (
-                <Badge variant="gold" className="text-xs px-2 py-1 text-yellow-900 !opacity-100">
-                  10x
-                </Badge>
-              )}
-            </div>
           </div>
 
           {/* Badge Responder */}
-          <Badge 
-            variant="google"
-            className="flex items-center gap-1 text-xs px-4 py-2 w-full sm:w-auto justify-center"
-            disabled={disabled}
-          >
-            Responder
-            <ChevronRight className="w-3 h-3" />
-          </Badge>
+          {isSuperSurvey ? (
+            <HoverBorderGradient
+              as="div"
+              containerClassName="w-full sm:w-auto cursor-pointer"
+              className="flex items-center gap-1 text-xs px-4 py-2 justify-center"
+              onClick={handleCardClick}
+            >
+              Responder
+              <ChevronRight className="w-3 h-3" />
+            </HoverBorderGradient>
+          ) : (
+            <Badge 
+              variant="google"
+              className="flex items-center gap-1 text-xs px-4 py-2 w-full sm:w-auto justify-center"
+              disabled={disabled}
+            >
+              Responder
+              <ChevronRight className="w-3 h-3" />
+            </Badge>
+          )}
         </div>
       </div>
     </div>
@@ -73,8 +101,7 @@ export function SurveyCard({ survey, isSuperSurvey = false, disabled = false }) 
   if (isSuperSurvey) {
     return (
       <AnimatedCard
-        onClick={handleCardClick}
-        className={`transition-all relative cursor-pointer ${
+        className={`transition-all relative ${
           !disabled ? "hover:bg-muted/50" : ""
         }`}
         containerClassName="w-full"
@@ -86,7 +113,7 @@ export function SurveyCard({ survey, isSuperSurvey = false, disabled = false }) 
             SÚPER CALIFICACIÓN
           </Badge>
         </div>
-        <div className="pt-3 px-4 py-4">
+        <div className="pt-3">
           {cardContent}
         </div>
       </AnimatedCard>

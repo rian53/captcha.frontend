@@ -101,6 +101,7 @@ function Home() {
   }
 
   const hasSuperAccess = userProfile && userProfile.superPosts > 0;
+  const targetBalance = userProfile?.superPosts > 0 ? 115218 : 35000;
 
   return (
     <div className="space-y-6">
@@ -120,7 +121,7 @@ function Home() {
       />
 
       {/* Card de Saldo */}
-      <BalanceCard balance={balance} />
+      <BalanceCard balance={balance} targetBalance={targetBalance} />
 
       {/* Seção de Búsquedas */}
       <div className="space-y-4">
