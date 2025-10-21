@@ -166,7 +166,6 @@ function Login() {
                       name="email"
                       type="email"
                       id="email"
-                      value={prefilledEmail}
                       {...register("email")}
                     />
                   </div>
