@@ -137,7 +137,7 @@ export default function App({ Component, pageProps }) {
     <>
       <ThemeProvider>
           <Head>
-            <title>Escala Vault</title>
+            <title>Captcha</title>
           </Head>
           <ThemedToaster />
           <div className={`${onest.className} flex h-full w-full flex-col`}>
