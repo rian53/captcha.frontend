@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
@@ -32,14 +32,7 @@ const PromotionalModal = ({ isOpen, onClose }) => {
     window.open(steps[currentStep].url, '_blank');
   };
 
-  // Volver a etapa anterior
-  const handlePrevious = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
-
-  // Avanzar a siguiente etapa o cerrar
+  // Avanzar automáticamente al siguiente anuncio
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
@@ -74,39 +67,13 @@ const PromotionalModal = ({ isOpen, onClose }) => {
 
         {/* Content */}
         <div className="p-4">
-          {/* Title */}
-          <h3 className="text-lg font-semibold text-gray-900 mb-3 text-center">
-            {currentStepData.title}
-          </h3>
-
-          {/* Progress dots */}
-          <div className="flex justify-center space-x-2 mb-4">
-            {steps.map((_, index) => (
-              <div
-                key={index}
-                className={`w-2 h-2 rounded-full ${
-                  index === currentStep ? 'bg-blue-500' : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Botones */}
-          <div className="flex justify-center space-x-3">
-            {currentStep > 0 && (
-              <Button
-                onClick={handlePrevious}
-                variant="outline"
-                className="px-6 py-2"
-              >
-                Volver
-              </Button>
-            )}
+          {/* Botón de cerrar */}
+          <div className="flex justify-center">
             <Button
               onClick={handleNext}
-              className="px-8 py-2 bg-blue-600 hover:bg-blue-700"
+              className="px-3 py-1 text-sm bg-red-600 hover:bg-red-700 text-white font-bold"
             >
-              {currentStep === steps.length - 1 ? 'Cerrar' : 'Continuar'}
+              ✕ CERRAR
             </Button>
           </div>
         </div>

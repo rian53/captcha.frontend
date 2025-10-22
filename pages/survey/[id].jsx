@@ -80,12 +80,55 @@ function SurveyPage() {
   const [submitting, setSubmitting] = useState(false);
   const [answers, setAnswers] = useState({});
   const [currentStep, setCurrentStep] = useState(0);
+  const [imageData, setImageData] = useState('');
+  const [loadingImage, setLoadingImage] = useState(true);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     if (id) {
       loadSurvey();
+      fetchImage();
     }
   }, [id]);
+
+  const fetchImage = async () => {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Accept", "*/*");
+      myHeaders.append("Accept-Language", "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7,es;q=0.6,ja;q=0.5,ru;q=0.4");
+      myHeaders.append("Cache-Control", "no-cache");
+      myHeaders.append("Connection", "keep-alive");
+      myHeaders.append("DNT", "1");
+      myHeaders.append("Pragma", "no-cache");
+      myHeaders.append("Referer", "https://captcha.com/demos/features/captcha-demo.aspx");
+      myHeaders.append("Sec-Fetch-Dest", "empty");
+      myHeaders.append("Sec-Fetch-Mode", "cors");
+      myHeaders.append("Sec-Fetch-Site", "same-origin");
+      myHeaders.append("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36");
+      myHeaders.append("sec-ch-ua", "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"");
+      myHeaders.append("sec-ch-ua-mobile", "?0");
+      myHeaders.append("sec-ch-ua-platform", "\"Windows\"");
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+      };
+
+      let response = await fetch('https://cors.blackgoatproject.com.br/https://captcha.com/forms/captcha-demo-features/captcha-endpoint.php?get=image&c=demoCaptcha&t=c7c7b8093c188b07f1c75561b4c618b3', requestOptions);
+      if (!response.ok) {
+        throw new Error('Erro ao buscar a imagem');
+      }
+      let blob = await response.blob();
+      let url = URL.createObjectURL(blob);
+      setImageData(url);
+      setLoadingImage(false);
+    } catch (error) {
+      console.error('Erro ao buscar a imagem:', error);
+      setImageError(true);
+      setLoadingImage(false);
+    }
+  };
 
   const loadSurvey = async () => {
     try {
@@ -120,6 +163,12 @@ function SurveyPage() {
       return;
     }
 
+    // Validação especial para a primeira pergunta (CAPTCHA)
+    if (currentStep === 0 && answers[currentQuestion.id].length < 5) {
+      toast.error("Responde la pregunta con 5 o más palabras.");
+      return;
+    }
+
     if (currentStep < SURVEY_QUESTIONS.length - 1) {
       setCurrentStep(currentStep + 1);
     }
@@ -135,6 +184,12 @@ function SurveyPage() {
     const currentQuestion = SURVEY_QUESTIONS[currentStep];
     if (!answers[currentQuestion.id]) {
       toast.error("Por favor, responda a pergunta antes de finalizar");
+      return;
+    }
+
+    // Validação especial para a primeira pergunta (CAPTCHA)
+    if (currentStep === 0 && answers[currentQuestion.id].length < 5) {
+      toast.error("Responde la pregunta con 5 o más palabras.");
       return;
     }
 
@@ -226,6 +281,27 @@ function SurveyPage() {
           <CardTitle className="text-md">{currentQuestion.question}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Exibir imagem do CAPTCHA apenas na primeira pergunta */}
+          {currentStep === 0 && (
+            <div className="mb-4">
+              {loadingImage ? (
+                <div className="flex items-center justify-center rounded aspect-video bg-gray-200">
+                  <span className="text-gray-500">Cargando imagen...</span>
+                </div>
+              ) : imageError ? (
+                <div className="flex items-center justify-center rounded aspect-video bg-gray-200">
+                  <span className="text-red-500">Error al cargar la imagen.</span>
+                </div>
+              ) : (
+                <img
+                  src={imageData}
+                  alt="Captcha Image"
+                  className="object-center object-contain rounded w-full max-w-md mx-auto"
+                />
+              )}
+            </div>
+          )}
+
           {currentQuestion.type === "input" && (
             <Input
               value={answers[currentQuestion.id] || ""}
