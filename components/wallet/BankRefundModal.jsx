@@ -233,6 +233,9 @@ const BankRefundModal = ({ isOpen, onClose, onConfirm, initialData = null }) => 
           Hemos enviado un código de 6 dígitos a<br />
           <strong>{bankData.email}</strong>
         </p>
+        <p className="text-sm text-muted-foreground mt-2">
+          Si no recibes el email, verifica tu carpeta de spam o correo no deseado
+        </p>
       </div>
 
       <div className="space-y-4">

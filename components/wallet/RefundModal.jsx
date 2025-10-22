@@ -345,6 +345,9 @@ const RefundModal = ({ isOpen, onClose, onSuccess }) => {
           Hemos enviado un código de 6 dígitos a<br />
           <strong>{email}</strong>
         </p>
+        <p className="text-sm text-muted-foreground mt-2">
+          Si no recibes el email, verifica tu carpeta de spam o correo no deseado
+        </p>
       </div>
 
       <div className="space-y-4">
