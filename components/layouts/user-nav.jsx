@@ -117,7 +117,7 @@ export const UserNav = () => {
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer flex items-center border rounded-lg"
-            onClick={() => window.open("mailto:contato@gcaptchas.online?subject=Soporte - Consulta", "_blank")}
+            onClick={() => window.open("mailto:contacto@gcaptchas.site?subject=Soporte - Consulta", "_blank")}
           >
             <HeadsetIcon className="mr-2 h-4 w-4" />
             Contáctanos

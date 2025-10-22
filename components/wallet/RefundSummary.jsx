@@ -435,7 +435,7 @@ const RefundSummary = ({ refundData, paymentInfo, bankDetails, onUpdate }) => {
               tiempo estimado, por favor contáctanos. Estamos aquí para ayudarte.
             </p>
             <p className="text-xs text-muted-foreground">
-              Email: <a href="mailto:contato@gcaptchas.online" className="text-primary hover:underline">contato@gcaptchas.online</a>
+              Email: <a href="mailto:contacto@gcaptchas.site" className="text-primary hover:underline">contacto@gcaptchas.site</a>
             </p>
           </div>
         </CardContent>

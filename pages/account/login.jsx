@@ -103,7 +103,7 @@ function Login() {
   }
 
   function handleCopyEmail() {
-    navigator.clipboard.writeText('contato@gcaptchas.online').then(() => {
+    navigator.clipboard.writeText('contacto@gcaptchas.site').then(() => {
       setEmailCopied(true);
       toast.success('Email copiado al portapapeles');
       setTimeout(() => {
@@ -237,7 +237,7 @@ function Login() {
                           Copiado
                         </>
                       ) : (
-                        'contato@gcaptchas.online'
+                        'contacto@gcaptchas.site'
                       )}
                     </span>
                   </div>
