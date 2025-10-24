@@ -9,13 +9,13 @@ const PromotionalModal = ({ isOpen, onClose }) => {
   const steps = [
     {
       id: 1,
-      url: "https://global.mundpay.com/66vz4zjpmq",
+      url: "https://pay.mycheckoutt.com/019a180c-1c31-7170-a381-1caea2921fbc?ref=",
       image: "/img/100av.jpg",
       title: "+100 Evaluaciones"
     },
     {
       id: 2,
-      url: "https://global.mundpay.com/bfvxjg3pd5",
+      url: "https://pay.mycheckoutt.com/019a1812-8dfa-7156-a134-e5bfe6f0c7e6?ref=",
       image: "/img/200av.jpg",
       title: "+200 Evaluaciones"
     },
